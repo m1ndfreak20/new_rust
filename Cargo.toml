@@ -1,0 +1,52 @@
+[package]
+name = "websocket_benchmark"
+version = "1.0.0"
+edition = "2021"
+authors = ["Benchmark Team"]
+description = "WebSocket Ping-Pong Benchmark in Rust (rewrite from C)"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1.35", features = ["full", "rt-multi-thread", "net", "time", "macros"] }
+
+# WebSocket client
+tokio-tungstenite = "0.21"
+
+# TLS
+tokio-native-tls = "0.3"
+native-tls = "0.2"
+
+# Base64 encoding
+base64 = "0.21"
+
+# System calls and Linux specific
+libc = "0.2"
+nix = "0.27"
+
+# Command line parsing
+clap = { version = "4.4", features = ["derive"] }
+
+# Utilities
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Statistics
+statrs = "0.16"
+
+# Random
+rand = "0.8"
+
+# Futures utilities
+futures-util = "0.3"
+
+# For epoll (Linux only)
+[target.'cfg(target_os = "linux")'.dependencies]
+epoll = "4.3"
+io-uring = "0.6"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"
